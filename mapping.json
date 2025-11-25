@@ -1,0 +1,645 @@
+[
+  {
+    "Field": "slikeId",
+    "DB Column": "k",
+    "Type": "keyword",
+    "Description": "Unique video/content identifier"
+  },
+  {
+    "Field": "url",
+    "DB Column": "url",
+    "Type": "keyword",
+    "Description": "Media url"
+  },
+  {
+    "Field": "title",
+    "DB Column": "seopath_l2",
+    "Type": "string",
+    "Description": "Video title"
+  },
+  {
+    "Field": "language",
+    "DB Column": "lng",
+    "Type": "keyword",
+    "Description": "Video language"
+  },
+  {
+    "Field": "country",
+    "DB Column": "c",
+   "Type": "keyword",
+    "Description": "Country of origin"
+  },
+  {
+    "Field": "isLive",
+    "DB Column": "il",
+    "Type": "boolean",
+    "Description": "Flag indicating live content"
+  },
+  {
+    "Field": "isShort",
+    "DB Column": "isShort",
+    "Type": "boolean",
+    "Description": "Flag indicating short-form video"
+  },
+  {
+    "Field": "vendor",
+    "DB Column": "vid",
+    "Type": "integer",
+    "Description": "Content Provider (Vendor)"
+  },
+  {
+    "Field": "channel",
+    "DB Column": "pch",
+    "Type": "string",
+    "Description": "Parent Channel"
+  },
+  {
+    "Field": "product",
+    "DB Column": "ptpr",
+    "Type": "string",
+    "Description": "Product or vertical"
+  },
+  {
+    "Field": "cms_product",
+    "DB Column": "tpr",
+    "Type": "string",
+    "Description": "CMS product identifier"
+  },
+  {
+    "Field": "pubproducts",
+    "DB Column": "tpr",
+    "Type": "string",
+    "Description": "Content Id Product"
+  },
+  {
+    "Field": "section",
+    "DB Column": "chs",
+    "Type": "string",
+    "Description": "Content section or category"
+  },
+  {
+    "Field": "month",
+    "DB Column": "dateindex",
+    "Type": "integer",
+    "Description": "Month derived from dateindex"
+  },
+  {
+    "Field": "monthwise",
+    "DB Column": "dateindex",
+    "Type": "integer",
+    "Description": "Month for grouping"
+  },
+  {
+    "Field": "year",
+    "DB Column": "dateindex",
+    "Type": "integer",
+    "Description": "Year derived from dateindex"
+  },
+  {
+    "Field": "yearwise",
+    "DB Column": "dateindex",
+    "Type": "integer",
+    "Description": "Year for grouping"
+  },
+  {
+    "Field": "dateindex",
+    "DB Column": "dateindex",
+    "Type": "keyword",
+    "Description": "Date"
+  },
+  {
+    "Field": "daywise",
+    "DB Column": "day",
+    "Type": "keyword",
+    "Description": "Date in YYYYMMDD format (for grouping)"
+  },
+  {
+    "Field": "weekwise",
+    "Type": "keyword",
+    "Description": "Week start and end range derived from dateindex",
+    "Formula": "CONCAT(CAST(date_trunc('day', date_add('day', -(day_of_week(date_parse(dateindex, '%Y%m%d')) - 1), date_parse(dateindex, '%Y%m%d'))) as varchar) ,'|', CAST(date_trunc('day', date_add('day', 7 - day_of_week(date_parse(dateindex, '%Y%m%d')), date_parse(dateindex, '%Y%m%d'))) as varchar) )"
+  },
+  {
+    "Field": "assetType",
+    "DB Column": "ast",
+    "Type": "integer",
+    "Description": "Asset type such as video, story, etc."
+  },
+  {
+    "Field": "duration",
+    "DB Column": "du",
+    "Type": "float",
+    "Description": "Video playback duration in milliseconds"
+  },
+  {
+    "Field": "allvideos",
+    "DB Column": "k",
+    "Type": "keyword",
+    "Description": "All videos identifier"
+  },
+  {
+    "Field": "timestamp",
+    "DB Column": "ts",
+    "Type": "date",
+    "Description": "Event timestamp"
+  },
+  {
+    "Field": "totalplaytime",
+    "Type": "float",
+    "Description": "Sum of play durations in minutes",
+    "Formula": "(SUM(pd))/60000"
+  },
+  {
+    "Field": "totalviewtime_hh_mm",
+    "Type": "string",
+    "Description": "Formatted total viewing time (HH:MM)",
+    "Formula": "CONCAT(LPAD(CAST(FLOOR(SUM(pd) / 3600000) AS VARCHAR), 5, '0'), ':', LPAD(CAST(FLOOR((SUM(pd) % 3600000) / 60000) AS VARCHAR), 2, '0'))"
+  },
+  {
+    "Field": "videorequests",
+    "Type": "integer",
+    "Description": "video requests",
+    "Formula": "SUM(CASE WHEN vj>=400 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "pir",
+    "Type": "integer",
+    "Description": "Playback initiation rate (vj >= 100)",
+    "Formula": "SUM(CASE WHEN vj>=100 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "mrtp",
+    "Type": "integer",
+    "Description": "Metric for vj >= 1200",
+    "Formula": "SUM(CASE WHEN vj>=1200 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "videoplays",
+    "Type": "integer",
+    "Description": "video views",
+    "Formula": "SUM(CASE WHEN vj>=1400 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "gte3secplays",
+    "Type": "integer",
+    "Description": "Videos played longer than 3 seconds",
+    "Formula": "SUM(CASE WHEN vj>=1500 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "videos4q",
+    "Type": "integer",
+    "Description": "Videos played longer than 10 seconds",
+    "Formula": "SUM(CASE WHEN pd>=10000 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "videos5q",
+    "Type": "integer",
+    "Description": "Videos played longer than 20 seconds",
+    "Formula": "SUM(CASE WHEN pd>=20000 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "videos6q",
+    "Type": "integer",
+    "Description": "Videos played longer than 60 seconds",
+    "Formula": "SUM(CASE WHEN pd>=60000 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "videos1q",
+    "Type": "integer",
+    "Description": "Videos with 25% completion",
+    "Formula": "SUM(CASE WHEN plper>=25 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "videos2q",
+    "Type": "integer",
+    "Description": "Videos with 50% completion",
+    "Formula": "SUM(CASE WHEN plper>=50 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "videos3q",
+    "Type": "integer",
+    "Description": "Videos with 75% completion",
+    "Formula": "SUM(CASE WHEN plper>=75 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "videos7q",
+    "Type": "integer",
+    "Description": "Videos with 95% completion",
+    "Formula": "SUM(CASE WHEN plper>=95 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "autoplayback",
+    "Type": "integer",
+    "Description": "Videos that auto-played (vap = 1)",
+    "Formula": "SUM(CASE WHEN vap=1 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "mo",
+    "Type": "integer",
+    "Description": "Ad metric (aj >= 31)",
+    "Formula": "SUM(CASE WHEN aj>=31 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "adcalls",
+    "Type": "integer",
+    "Description": "Ad calls initiated",
+    "Formula": "SUM(CASE WHEN aj>=500 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "adplays",
+    "Type": "integer",
+    "Description": "Ad impressions (aj >= 1400)",
+    "Formula": "SUM(CASE WHEN aj>=1400 and aj<=2040 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "pmo",
+    "Type": "integer",
+    "Description": "Pre-roll ad metric (psaj >= 31)",
+    "Formula": "SUM(CASE WHEN psaj>=31 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "padcalls",
+    "Type": "integer",
+    "Description": "Pre-roll ad calls",
+    "Formula": "SUM(CASE WHEN psaj>=500 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "padplays",
+    "Type": "integer",
+    "Description": "Pre-roll ad plays",
+    "Formula": "SUM(CASE WHEN psaj>=1400 and psaj<=2040 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "adfinished",
+    "Type": "integer",
+    "Description": "Completed ad plays",
+    "Formula": "SUM(CASE WHEN aj>=1900 and aj<2000 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "padfinished",
+    "Type": "integer",
+    "Description": "Completed pre-roll ad plays",
+    "Formula": "SUM(CASE WHEN psaj>=1900 and psaj<2000 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "adskip",
+    "Type": "integer",
+    "Description": "Skipped ads (aj = 2040)",
+    "Formula": "SUM(CASE WHEN aj=2040 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "padskip",
+    "Type": "integer",
+    "Description": "Skipped pre-roll ads",
+    "Formula": "SUM(CASE WHEN psaj=2040 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "adsunfilled",
+    "Type": "integer",
+    "Description": "Unfilled ad requests",
+    "Formula": "SUM(CASE WHEN (aj>=500 and aj<1400) or (aj>=2041) THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "padsunfilled",
+    "Type": "integer",
+    "Description": "Unfilled pre-roll ad requests",
+    "Formula": "SUM(CASE WHEN psaj=2099 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "player_issue",
+    "Type": "integer",
+    "Description": "Calculated player issues",
+    "Formula": "(SUM(CASE WHEN vj>=100 THEN 1 ELSE 0 END) - SUM(CASE WHEN vj>=621 and vj<622 THEN 1 ELSE 0 END) - SUM(CASE WHEN vj>=1000 THEN 1 ELSE 0 END) - SUM(CASE WHEN vj>=601 and vj<602 THEN 1 ELSE 0 END))"
+  },
+  {
+    "Field": "load_failure",
+    "Type": "integer",
+    "Description": "Failed to load player (vj range 1100–1200)",
+    "Formula": "SUM(CASE WHEN vj>=1100 and vj<1200 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "sdk_failure",
+    "Type": "integer",
+    "Description": "SDK initialization failure (vj range 100–200)",
+    "Formula": "SUM(CASE WHEN vj>=100 and vj<=200 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "ad_wait",
+    "Type": "integer",
+    "Description": "Ad waiting time events",
+    "Formula": "(SUM(CASE WHEN vj>=621 and vj<622 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1121 and vj<1122 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1321 and vj<1322 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1302 and vj<1303 THEN 1 ELSE 0 END))"
+  },
+  {
+    "Field": "user_wait",
+    "Type": "integer",
+    "Description": "User waiting time events",
+    "Formula": "(SUM(CASE WHEN vj>=601 and vj<602 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1101 and vj<1102 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1301 and vj<1302 THEN 1 ELSE 0 END))"
+  },
+  {
+    "Field": "uniqueusers",
+    "Type": "integer",
+    "Description": "Count of unique users",
+    "Formula": "COUNT(DISTINCT(U1))"
+  },
+  {
+    "Field": "usersessions",
+    "Type": "integer",
+    "Description": "Count of unique sessions",
+    "Formula": "COUNT(DISTINCT(usid))"
+  },
+  {
+    "Field": "uniqueviewers",
+    "Type": "integer",
+    "Description": "Unique viewers with plays (vj >= 1400)",
+    "Formula": "COUNT(DISTINCT(CASE WHEN vj>=1400 THEN u1 ELSE '' END))-1"
+  },
+  {
+    "Field": "midmon",
+    "Type": "integer",
+    "Description": "Midroll ad calls",
+    "Formula": "SUM(CASE WHEN aj>=500 and aj<1400 and midad=2 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "midadreq",
+    "Type": "integer",
+    "Description": "Midroll ad requests",
+    "Formula": "SUM(CASE WHEN m1aj>=100 and aj>=500 and aj<1400 and midad=2 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "midadimp",
+    "Type": "integer",
+    "Description": "Midroll ad impressions",
+    "Formula": "SUM(CASE WHEN m1aj>=1400 and m1aj<=2040 and aj>=500 and aj<1400 and midad=2 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "mac",
+    "Type": "integer",
+    "Description": "Midroll ad completes",
+    "Formula": "SUM(CASE WHEN m1aj>=1900 and m1aj<2000 and midad=2 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "mauu",
+    "Type": "integer",
+    "Description": "Midroll unfilled ads",
+    "Formula": "SUM(CASE WHEN ((m1aj>=500 and m1aj<1400) or (m1aj>=2041)) and midad=2 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "mas",
+    "Type": "integer",
+    "Description": "Midroll ad skips",
+    "Formula": "SUM(CASE WHEN aj=2040 and midad=2 THEN 1 ELSE 0 END)"
+  },
+  {
+    "Field": "vap",
+    "Type": "integer",
+    "Description": "Autoplay off (Waiting for user to click) -1, Autoplay on with Mute - 2, Autoplay on with unmute state - 3",
+    "Formula": "CASE WHEN VAP=1 then 1 when VAP=2 then 2 when VAP=3 then 3 else 0 end"
+  },
+  {
+    "Field": "vap",
+    "Type": "integer",
+    "Description": "Video autoplay alias",
+    "Formula": "CASE WHEN VAP=1 then 1 when VAP=2 then 2 when VAP=3 then 3 else 0 end,"
+  },
+  {
+    "Field": "exp",
+    "DB Column": "exp",
+    "Type": "string",
+    "Description": "Experiment identifier"
+  },
+  {
+    "Field": "dauthor",
+    "DB Column": "dauthor",
+    "Type": "string",
+    "Description": "Content author"
+  },
+  {
+    "Field": "midad",
+    "DB Column": "midad",
+    "Type": "integer",
+    "Description": "Deferred:1, midrollaspreroll:2, prerollagnostic:3, prefetch:4, banner as preroll failure:5, banner&deffered:6"
+  },
+  {
+    "Field": "du",
+    "DB Column": "du",
+    "Type": "long",
+    "Description": "Media duration"
+  },
+  {
+    "Field": "ps",
+    "DB Column": "ps",
+    "Type": "keyword",
+    "Description": "Player size: small:1, medium:2, large:3, Xtra-large:4, fullscreen:5, Xtra-Small:11"
+  },
+  {
+    "Field": "ss",
+    "DB Column": "ss",
+    "Type": "keyword",
+    "Description": "Streaming Session id. New for each playback"
+  },
+  {
+    "Field": "user",
+    "DB Column": "U1",
+    "Type": "string",
+    "Description": "User identifier"
+  },
+  {
+    "Field": "pd",
+    "DB Column": "pd",
+    "Type": "integer",
+    "Description": "Play Duration"
+  },
+  {
+    "Field": "k",
+    "DB Column": "k",
+    "Type": "string",
+    "Description": "Media id"
+  },
+  {
+    "Field": "browsers",
+    "DB Column": "ua",
+    "Type": "integer",
+    "Description": "Browser User Agents: 1=Opera, 2=IE, 3=Yandex, 4=WeChat, 5=MIUI Browser, 6=WebView, 7=Android Browser, 8=UCBrowser, 9=Dolphin, 10=Chrome, 11=Facebook, 12=Firefox, 13=Safari, 14=Mobile Safari, 15=Netscape"
+  },
+  {
+    "Field": "operatingsystem",
+    "DB Column": "oss",
+    "Type": "integer",
+    "Description": "Parent Operating system"
+  },
+  {
+    "Field": "msid",
+    "DB Column": "msid",
+    "Type": "integer",
+    "Description": "Media session ID"
+  },
+  {
+    "Field": "ch",
+    "DB Column": "ch",
+    "Type": "string",
+    "Description": "Channel"
+  }
+,
+{
+    "Field": "ct",
+    "DB Column": "ct",
+    "Type": "string",
+    "Description": "Content type"
+  },
+  {
+    "Field": "src",
+    "DB Column": "src",
+    "Type": "integer",
+    "Description": "Player source: yt, facebook, slike etc"
+  },
+  {
+    "Field": "nt",
+    "DB Column": "nt",
+    "Type": "integer",
+    "Description": "Network Type (1:WIFI, 2:2G, 3:3G, 4:4G)"
+  },
+  {
+    "Field": "pre",
+    "DB Column": "pre",
+    "Type": "integer",
+    "Description": "Pre-roll identifier"
+  },
+  {
+    "Field": "apikey",
+    "DB Column": "apikey",
+    "Type": "keyword",
+    "Description": "Apikey"
+  },
+  {
+    "Field": "ptpr",
+    "DB Column": "ptpr",
+    "Type": "keyword",
+    "Description": "Publishing product"
+  },
+  {
+    "Field": "c",
+    "DB Column": "c",
+    "Type": "keyword",
+    "Description": "Country Code"
+  },
+  {
+    "Field": "d",
+    "DB Column": "d",
+    "Type": "keyword",
+    "Description": "Date"
+  },
+  {
+    "Field": "platform",
+    "DB Column": "p",
+    "Type": "integer",
+    "Description": "Platform: 1=Web, 2=mweb, 3=Android, 4=IOS, 1001=Amp"
+  },
+  {
+    "Field": "z",
+    "DB Column": "z",
+    "Type": "keyword",
+    "Description": "Zone"
+  },
+  {
+    "Field": "template_section",
+    "DB Column": "tpl",
+    "Type": "keyword",
+    "Description": "Page template section"
+  },
+  {
+    "Field": "source",
+    "DB Column": "source",
+    "Type": "keyword",
+    "Description": "Source from media info backend key"
+  },
+  {
+    "Field": "origin",
+    "DB Column": "origin",
+    "Type": "keyword",
+    "Description": "Origin identifier"
+  },
+  {
+    "Field": "l1l2",
+    "DB Column": "l1l2",
+    "Type": "keyword",
+    "Description": "Key from l1l2 client, should be article seo path"
+  },
+  {
+    "Field": "seopath_l2l3",
+    "DB Column": "seopath_l2l3",
+    "Type": "keyword",
+    "Description": "SEO path Level 2 and 3"
+  },
+  {
+    "Field": "template",
+    "DB Column": "template",
+    "Type": "keyword",
+    "Description": "Template identifier"
+  },
+  {
+    "Field": "ctype",
+    "DB Column": "ctype",
+    "Type": "keyword",
+    "Description": "Content type classification"
+  },
+  {
+    "Field": "languages",
+    "DB Column": "lng",
+    "Type": "keyword",
+    "Description": "Video languages (plural)"
+  },
+  {
+    "Field": "slikeid",
+    "DB Column": "k",
+    "Type": "keyword",
+    "Description": "Video identifier (lowercase)"
+  },
+  {
+    "Field": "videolanguage",
+    "DB Column": "lng",
+    "Type": "keyword",
+    "Description": "Video language field"
+  },
+  {
+    "Field": "videosection",
+    "DB Column": "chs",
+    "Type": "string",
+    "Description": "Video section"
+  },
+  {
+    "Field": "isshort",
+    "DB Column": "isshort",
+    "Type": "boolean",
+    "Description": "Short-form video flag (lowercase)"
+  },
+  {
+    "Field": "vendorwise",
+    "DB Column": "vid",
+    "Type": "integer",
+    "Description": "Vendor grouping"
+  },
+  {
+    "Field": "id",
+    "DB Column": "_id",
+    "Type": "keyword",
+    "Description": "Record identifier"
+  },
+  {
+    "Field": "screensize",
+    "DB Column": "sd",
+    "Type": "double",
+    "Description": "Screen size dimension"
+  },
+  {
+    "Field": "products",
+    "DB Column": "ptpr",
+    "Type": "string",
+    "Description": "Products"
+  },
+  {
+    "Field": "category",
+    "DB Column": "ctg",
+    "Type": "string",
+    "Description": "Category grouping"
+  }
+]

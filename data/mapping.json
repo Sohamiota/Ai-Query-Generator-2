@@ -1,0 +1,625 @@
+{
+  "test_videos_historical": {
+    "columns": [
+      {
+        "name": "k",
+        "type": "keyword",
+        "field_name": "slikeId",
+        "description": "Unique video/content identifier"
+      },
+      {
+        "name": "url",
+        "type": "keyword",
+        "description": "Media url"
+      },
+      {
+        "name": "seopath_l2",
+        "type": "string",
+        "field_name": "title",
+        "description": "Video title"
+      },
+      {
+        "name": "lng",
+        "type": "keyword",
+        "field_name": "language",
+        "description": "Video language"
+      },
+      {
+        "name": "c",
+        "type": "keyword",
+        "field_name": "country",
+        "description": "Country of origin"
+      },
+      {
+        "name": "il",
+        "type": "string",
+        "field_name": "isLive",
+        "description": "Flag indicating live content"
+      },
+      {
+        "name": "isShort",
+        "type": "string",
+        "description": "Flag indicating short-form video"
+      },
+      {
+        "name": "vid",
+        "type": "integer",
+        "field_name": "vendor",
+        "description": "Content Provider (Vendor)"
+      },
+      {
+        "name": "pch",
+        "type": "string",
+        "field_name": "channel",
+        "description": "Parent Channel"
+      },
+      {
+        "name": "ptpr",
+        "type": "string",
+        "field_name": "product",
+        "description": "Product or vertical"
+      },
+      {
+        "name": "tpr",
+        "type": "string",
+        "field_name": "cms_product",
+        "description": "CMS product identifier"
+      },
+      {
+        "name": "tpr",
+        "type": "string",
+        "field_name": "pubproducts",
+        "description": "Content Id Product"
+      },
+      {
+        "name": "chs",
+        "type": "string",
+        "field_name": "section",
+        "description": "Content section or category"
+      },
+      {
+        "name": "dateindex",
+        "type": "integer",
+        "field_name": "month",
+        "description": "Month derived from dateindex"
+      },
+      {
+        "name": "dateindex",
+        "type": "integer",
+        "field_name": "monthwise",
+        "description": "Month for grouping"
+      },
+      {
+        "name": "dateindex",
+        "type": "integer",
+        "field_name": "year",
+        "description": "Year derived from dateindex"
+      },
+      {
+        "name": "dateindex",
+        "type": "integer",
+        "field_name": "yearwise",
+        "description": "Year for grouping"
+      },
+      {
+        "name": "dateindex",
+        "type": "keyword",
+        "description": "Date"
+      },
+      {
+        "name": "day",
+        "type": "keyword",
+        "field_name": "daywise",
+        "description": "Date in YYYYMMDD format (for grouping)"
+      },
+      {
+        "name": "weekwise",
+        "type": "keyword",
+        "description": "Week start and end range derived from dateindex",
+        "formula": "CONCAT(CAST(date_trunc('day', date_add('day', -(day_of_week(date_parse(dateindex, '%Y%m%d')) - 1), date_parse(dateindex, '%Y%m%d'))) as varchar) ,'|', CAST(date_trunc('day', date_add('day', 7 - day_of_week(date_parse(dateindex, '%Y%m%d')), date_parse(dateindex, '%Y%m%d'))) as varchar) )"
+      },
+      {
+        "name": "ast",
+        "type": "integer",
+        "field_name": "assetType",
+        "description": "Asset type such as video, story, etc."
+      },
+      {
+        "name": "du",
+        "type": "float",
+        "field_name": "duration",
+        "description": "Video playback duration in milliseconds"
+      },
+      {
+        "name": "k",
+        "type": "keyword",
+        "field_name": "allvideos",
+        "description": "All videos identifier"
+      },
+      {
+        "name": "ts",
+        "type": "date",
+        "field_name": "timestamp",
+        "description": "Event timestamp"
+      },
+      {
+        "name": "totalplaytime",
+        "type": "float",
+        "description": "Sum of play durations in minutes",
+        "formula": "(SUM(pd))/60000"
+      },
+      {
+        "name": "totalviewtime_hh_mm",
+        "type": "string",
+        "description": "Formatted total viewing time (HH:MM)",
+        "formula": "CONCAT(LPAD(CAST(FLOOR(SUM(pd) / 3600000) AS VARCHAR), 5, '0'), ':', LPAD(CAST(FLOOR((SUM(pd) % 3600000) / 60000) AS VARCHAR), 2, '0'))"
+      },
+      {
+        "name": "videorequests",
+        "type": "integer",
+        "description": "video requests",
+        "formula": "SUM(CASE WHEN vj>=400 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "pir",
+        "type": "integer",
+        "description": "Playback initiation rate (vj >= 100)",
+        "formula": "SUM(CASE WHEN vj>=100 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "mrtp",
+        "type": "integer",
+        "description": "Metric for vj >= 1200",
+        "formula": "SUM(CASE WHEN vj>=1200 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "videoplays",
+        "type": "integer",
+        "description": "video views",
+        "formula": "SUM(CASE WHEN vj>=1400 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "gte3secplays",
+        "type": "integer",
+        "description": "Videos played longer than 3 seconds",
+        "formula": "SUM(CASE WHEN vj>=1500 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "videos4q",
+        "type": "integer",
+        "description": "Videos played longer than 10 seconds",
+        "formula": "SUM(CASE WHEN pd>=10000 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "videos5q",
+        "type": "integer",
+        "description": "Videos played longer than 20 seconds",
+        "formula": "SUM(CASE WHEN pd>=20000 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "videos6q",
+        "type": "integer",
+        "description": "Videos played longer than 60 seconds",
+        "formula": "SUM(CASE WHEN pd>=60000 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "videos1q",
+        "type": "integer",
+        "description": "Videos with 25% completion",
+        "formula": "SUM(CASE WHEN plper>=25 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "videos2q",
+        "type": "integer",
+        "description": "Videos with 50% completion",
+        "formula": "SUM(CASE WHEN plper>=50 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "videos3q",
+        "type": "integer",
+        "description": "Videos with 75% completion",
+        "formula": "SUM(CASE WHEN plper>=75 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "videos7q",
+        "type": "integer",
+        "description": "Videos with 95% completion",
+        "formula": "SUM(CASE WHEN plper>=95 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "autoplayback",
+        "type": "integer",
+        "description": "Videos that auto-played (vap = 1)",
+        "formula": "SUM(CASE WHEN vap=1 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "mo",
+        "type": "integer",
+        "description": "Ad metric (aj >= 31)",
+        "formula": "SUM(CASE WHEN aj>=31 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "adcalls",
+        "type": "integer",
+        "description": "Ad calls initiated",
+        "formula": "SUM(CASE WHEN aj>=500 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "adplays",
+        "type": "integer",
+        "description": "Ad impressions (aj >= 1400)",
+        "formula": "SUM(CASE WHEN aj>=1400 and aj<=2040 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "pmo",
+        "type": "integer",
+        "description": "Pre-roll ad metric (psaj >= 31)",
+        "formula": "SUM(CASE WHEN psaj>=31 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "padcalls",
+        "type": "integer",
+        "description": "Pre-roll ad calls",
+        "formula": "SUM(CASE WHEN psaj>=500 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "padplays",
+        "type": "integer",
+        "description": "Pre-roll ad plays",
+        "formula": "SUM(CASE WHEN psaj>=1400 and psaj<=2040 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "adfinished",
+        "type": "integer",
+        "description": "Completed ad plays",
+        "formula": "SUM(CASE WHEN aj>=1900 and aj<2000 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "padfinished",
+        "type": "integer",
+        "description": "Completed pre-roll ad plays",
+        "formula": "SUM(CASE WHEN psaj>=1900 and psaj<2000 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "adskip",
+        "type": "integer",
+        "description": "Skipped ads (aj = 2040)",
+        "formula": "SUM(CASE WHEN aj=2040 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "padskip",
+        "type": "integer",
+        "description": "Skipped pre-roll ads",
+        "formula": "SUM(CASE WHEN psaj=2040 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "adsunfilled",
+        "type": "integer",
+        "description": "Unfilled ad requests",
+        "formula": "SUM(CASE WHEN (aj>=500 and aj<1400) or (aj>=2041) THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "padsunfilled",
+        "type": "integer",
+        "description": "Unfilled pre-roll ad requests",
+        "formula": "SUM(CASE WHEN psaj=2099 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "player_issue",
+        "type": "integer",
+        "description": "Calculated player issues",
+        "formula": "(SUM(CASE WHEN vj>=100 THEN 1 ELSE 0 END) - SUM(CASE WHEN vj>=621 and vj<622 THEN 1 ELSE 0 END) - SUM(CASE WHEN vj>=1000 THEN 1 ELSE 0 END) - SUM(CASE WHEN vj>=601 and vj<602 THEN 1 ELSE 0 END))"
+      },
+      {
+        "name": "load_failure",
+        "type": "integer",
+        "description": "Failed to load player (vj range 1100–1200)",
+        "formula": "SUM(CASE WHEN vj>=1100 and vj<1200 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "sdk_failure",
+        "type": "integer",
+        "description": "SDK initialization failure (vj range 100–200)",
+        "formula": "SUM(CASE WHEN vj>=100 and vj<=200 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "ad_wait",
+        "type": "integer",
+        "description": "Ad waiting time events",
+        "formula": "(SUM(CASE WHEN vj>=621 and vj<622 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1121 and vj<1122 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1321 and vj<1322 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1302 and vj<1303 THEN 1 ELSE 0 END))"
+      },
+      {
+        "name": "user_wait",
+        "type": "integer",
+        "description": "User waiting time events",
+        "formula": "(SUM(CASE WHEN vj>=601 and vj<602 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1101 and vj<1102 THEN 1 ELSE 0 END) + SUM(CASE WHEN vj>=1301 and vj<1302 THEN 1 ELSE 0 END))"
+      },
+      {
+        "name": "uniqueusers",
+        "type": "integer",
+        "description": "Count of unique users",
+        "formula": "COUNT(DISTINCT(U1))"
+      },
+      {
+        "name": "usersessions",
+        "type": "integer",
+        "description": "Count of unique sessions",
+        "formula": "COUNT(DISTINCT(usid))"
+      },
+      {
+        "name": "uniqueviewers",
+        "type": "integer",
+        "description": "Unique viewers with plays (vj >= 1400)",
+        "formula": "COUNT(DISTINCT(CASE WHEN vj>=1400 THEN u1 ELSE '' END))-1"
+      },
+      {
+        "name": "midmon",
+        "type": "integer",
+        "description": "Midroll ad calls",
+        "formula": "SUM(CASE WHEN aj>=500 and aj<1400 and midad=2 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "midadreq",
+        "type": "integer",
+        "description": "Midroll ad requests",
+        "formula": "SUM(CASE WHEN m1aj>=100 and aj>=500 and aj<1400 and midad=2 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "midadimp",
+        "type": "integer",
+        "description": "Midroll ad impressions",
+        "formula": "SUM(CASE WHEN m1aj>=1400 and m1aj<=2040 and aj>=500 and aj<1400 and midad=2 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "mac",
+        "type": "integer",
+        "description": "Midroll ad completes",
+        "formula": "SUM(CASE WHEN m1aj>=1900 and m1aj<2000 and midad=2 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "mauu",
+        "type": "integer",
+        "description": "Midroll unfilled ads",
+        "formula": "SUM(CASE WHEN ((m1aj>=500 and m1aj<1400) or (m1aj>=2041)) and midad=2 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "mas",
+        "type": "integer",
+        "description": "Midroll ad skips",
+        "formula": "SUM(CASE WHEN aj=2040 and midad=2 THEN 1 ELSE 0 END)"
+      },
+      {
+        "name": "vap",
+        "type": "integer",
+        "description": "Autoplay off (Waiting for user to click) -1, Autoplay on with Mute - 2, Autoplay on with unmute state - 3 (Values: 0=Autoplay Off, 1=Video + Audio Autoplay, 2=Video Autoplay (Muted), 3=Video Loaded Only)",
+        "formula": "CASE WHEN VAP=1 then 1 when VAP=2 then 2 when VAP=3 then 3 else 0 end"
+      },
+      {
+        "name": "vap",
+        "type": "integer",
+        "description": "Video autoplay alias",
+        "formula": "CASE WHEN VAP=1 then 1 when VAP=2 then 2 when VAP=3 then 3 else 0 end,"
+      },
+      {
+        "name": "exp",
+        "type": "string",
+        "description": "Experiment identifier"
+      },
+      {
+        "name": "dauthor",
+        "type": "string",
+        "description": "Content author"
+      },
+      {
+        "name": "midad",
+        "type": "integer",
+        "description": "Deferred:1, midrollaspreroll:2, prerollagnostic:3, prefetch:4, banner as preroll failure:5, banner&deffered:6"
+      },
+      {
+        "name": "du",
+        "type": "long",
+        "description": "Media duration"
+      },
+      {
+        "name": "ps",
+        "type": "keyword",
+        "description": "Player size: small:1, medium:2, large:3, Xtra-large:4, fullscreen:5, Xtra-Small:11"
+      },
+      {
+        "name": "ss",
+        "type": "keyword",
+        "description": "Streaming Session id. New for each playback"
+      },
+      {
+        "name": "U1",
+        "type": "string",
+        "field_name": "user",
+        "description": "User identifier"
+      },
+      {
+        "name": "pd",
+        "type": "integer",
+        "description": "Play Duration"
+      },
+      {
+        "name": "k",
+        "type": "string",
+        "description": "Media id"
+      },
+      {
+        "name": "ua",
+        "type": "integer",
+        "field_name": "browsers",
+        "description": "Browser User Agents: 1=Opera, 2=IE, 3=Yandex, 4=WeChat, 5=MIUI Browser, 6=WebView, 7=Android Browser, 8=UCBrowser, 9=Dolphin, 10=Chrome, 11=Facebook, 12=Firefox, 13=Safari, 14=Mobile Safari, 15=Netscape"
+      },
+      {
+        "name": "oss",
+        "type": "integer",
+        "field_name": "operatingsystem",
+        "description": "Parent Operating system (Values: 1=Windows, 2=Android, 13=MacOS, 6=iOS, 5=Linux, 11=Googlebot)"
+      },
+      {
+        "name": "msid",
+        "type": "integer",
+        "description": "Media session ID"
+      },
+      {
+        "name": "ch",
+        "type": "string",
+        "description": "Channel"
+      },
+      {
+        "name": "ct",
+        "type": "string",
+        "description": "Content type"
+      },
+      {
+        "name": "src",
+        "type": "integer",
+        "description": "Player source: yt, facebook, slike etc"
+      },
+      {
+        "name": "nt",
+        "type": "integer",
+        "description": "Network Type (1:WIFI, 2:2G, 3:3G, 4:4G)"
+      },
+      {
+        "name": "pre",
+        "type": "integer",
+        "description": "Pre-roll identifier"
+      },
+      {
+        "name": "apikey",
+        "type": "keyword",
+        "description": "Apikey"
+      },
+      {
+        "name": "ptpr",
+        "type": "keyword",
+        "description": "Publishing product"
+      },
+      {
+        "name": "c",
+        "type": "keyword",
+        "description": "Country Code"
+      },
+      {
+        "name": "d",
+        "type": "keyword",
+        "description": "Date"
+      },
+      {
+        "name": "p",
+        "type": "integer",
+        "field_name": "platform",
+        "description": "Platform: 1=Web, 2=mweb, 3=Android, 4=IOS, 1001=Amp"
+      },
+      {
+        "name": "z",
+        "type": "keyword",
+        "description": "Zone"
+      },
+      {
+        "name": "tpl",
+        "type": "keyword",
+        "field_name": "template_section",
+        "description": "Page template section"
+      },
+      {
+        "name": "source",
+        "type": "keyword",
+        "description": "Source from media info backend key"
+      },
+      {
+        "name": "origin",
+        "type": "keyword",
+        "description": "Origin identifier"
+      },
+      {
+        "name": "l1l2",
+        "type": "keyword",
+        "description": "Key from l1l2 client, should be article seo path"
+      },
+      {
+        "name": "seopath_l2l3",
+        "type": "keyword",
+        "description": "SEO path Level 2 and 3"
+      },
+      {
+        "name": "template",
+        "type": "keyword",
+        "description": "Template identifier"
+      },
+      {
+        "name": "ctype",
+        "type": "keyword",
+        "description": "Content type classification"
+      },
+      {
+        "name": "lng",
+        "type": "keyword",
+        "field_name": "languages",
+        "description": "Video languages (plural)"
+      },
+      {
+        "name": "k",
+        "type": "keyword",
+        "field_name": "slikeid",
+        "description": "Video identifier (lowercase)"
+      },
+      {
+        "name": "lng",
+        "type": "keyword",
+        "field_name": "videolanguage",
+        "description": "Video language field"
+      },
+      {
+        "name": "chs",
+        "type": "string",
+        "field_name": "videosection",
+        "description": "Video section"
+      },
+      {
+        "name": "isshort",
+        "type": "string",
+        "description": "Short-form video flag (lowercase)"
+      },
+      {
+        "name": "vid",
+        "type": "integer",
+        "field_name": "vendorwise",
+        "description": "Vendor grouping"
+      },
+      {
+        "name": "_id",
+        "type": "keyword",
+        "field_name": "id",
+        "description": "Record identifier"
+      },
+      {
+        "name": "sd",
+        "type": "double",
+        "field_name": "screensize",
+        "description": "Screen size dimension"
+      },
+      {
+        "name": "ptpr",
+        "type": "string",
+        "field_name": "products",
+        "description": "Products"
+      },
+      {
+        "name": "ctg",
+        "type": "string",
+        "field_name": "category",
+        "description": "Category grouping"
+      },
+      {
+        "name": "vap",
+        "type": "integer",
+        "field_name": "autoplay",
+        "description": "Video autoplay mode (Values: 0=Autoplay Off, 1=Video + Audio Autoplay, 2=Video Autoplay (Muted), 3=Video Loaded Only)"
+      }
+    ]
+  }
+}

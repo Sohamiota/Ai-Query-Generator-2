@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": "2025-11-04T10:52:17.702089",
+    "query": "SELECT k AS video_id, seopath_l2 AS title, SUM(CASE WHEN vj>=1400 THEN 1 ELSE 0 END) AS videoplays\nFROM test.test_videos_historical\nWHERE dateindex = CAST(date_format(date_add('day', -1, current_date), '%Y%m%d') AS VARCHAR)\nGROUP BY k, seopath_l2\nORDER BY videoplays DESC\nLIMIT 10",
+    "success": true,
+    "result_count": 10,
+    "user": "hadoop",
+    "schema": "test",
+    "user_question": "Top tending videos for yesterday"
+  },
+  {
+    "timestamp": "2025-11-04T10:53:19.561619",
+    "query": "SELECT \n    k,\n    url,\n    seopath_l2,\n    lng,\n    c,\n    il,\n    isShort,\n    vid,\n    pch,\n    ptpr,\n    tpr,\n    chs,\n    dateindex,\n    day,\n    ast,\n    du,\n    ts,\n    exp,\n    dauthor,\n    midad,\n    ps,\n    ss,\n    U1,\n    pd,\n    ua,\n    oss,\n    msid,\n    ch,\n    ct,\n    src,\n    nt,\n    pre,\n    apikey,\n    d,\n    p,\n    z,\n    tpl,\n    source,\n    origin,\n    l1l2,\n    seopath_l2l3,\n    template,\n    ctype,\n    _id,\n    sd,\n    ctg,\n    vap,\n    weekwise := CONCAT(CAST(date_trunc('day', date_add('day', -(day_of_week(date_parse(dateindex, '%Y%m%d')) - 1), date_parse(dateindex, '%Y%m%d'))) as varchar) ,'|', CAST(date_trunc('day', date_add('day', 7 - day_of_week(date_parse(dateindex, '%Y%m%d')), date_parse(dateindex, '%Y%m%d'))) as varchar) ),\n    totalplaytime := (SUM(pd))/60000,\n    totalviewtime_hh_mm := CONCAT(LPAD(CAST(FLOOR(SUM(pd) / 3600000) AS VARCHAR), 5, '0'), ':', LPAD(CAST(FLOOR((SUM(pd) % 3600000) / 60000) AS VARCHAR), 2, '0')),\n    videorequests := SUM(CASE WHEN vj>=400 THEN 1 ELSE 0 END),\n    pir := SUM(CASE WHEN vj>=100 THEN 1 ELSE 0 END),\n    mrtp := SUM(CASE WHEN vj>=1200 THEN 1 ELSE 0 END),\n    videoplays := SUM(CASE WHEN vj>=1400 THEN 1 ELSE 0 END),\n    gte3secplays := SUM(CASE WHEN vj>=1500 THEN 1 ELSE 0 END),\n    videos4q := SUM(CASE WHEN pd>=10000 THEN 1 ELSE 0 END),\n    videos5q := SUM(CASE WHEN pd>=20000 THEN 1 ELSE 0 END),\n    videos6q := SUM(CASE WHEN pd>=60000 THEN 1 ELSE 0 END),\n    videos1q := SUM(CASE WHEN plper>=25 THEN 1 ELSE 0 END),\n    videos2q := SUM(CASE WHEN plper>=50 THEN 1 ELSE 0 END),\n    videos3q := SUM(CASE WHEN plper>=75 THEN 1 ELSE 0 END),\n    videos7q := SUM(CASE WHEN plper>=95 THEN 1 ELSE 0 END),\n    autoplayback := SUM(CASE WHEN vap=1 THEN 1 ELSE 0 END),\n    mo := SUM(CASE WHEN aj>=31 THEN 1 ELSE 0 END),\n    adcalls := SUM(CASE WHEN aj>=500 THEN 1 ELSE 0 END),\n    adplays := SUM(CASE WHEN aj>=1400 and aj<=2040 THEN 1 ELSE 0 END),\n    pmo := SUM(CASE WHEN psaj>=31 THEN 1 ELSE 0 END),\n    padcalls := SUM(CASE WHEN psaj>=500 THEN 1 ELSE 0 END),\n    padplays := SUM(CASE WHEN psaj>=1400 and psaj<=2040 THEN 1 ELSE 0 END),\n    adfinished := SUM(CASE WHEN aj>=1900 and aj<2000 THEN 1 ELSE 0 END),\n    padfinished := SUM(CASE WHEN psaj>=1900 and psaj<2000 THEN 1 ELSE 0 END),\n    adskip :=",
+    "success": false,
+    "result_count": 0,
+    "user": "hadoop",
+    "schema": "test",
+    "user_question": "Run star query on the database and give me the  result"
+  }
+]

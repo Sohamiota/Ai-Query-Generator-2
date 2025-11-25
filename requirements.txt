@@ -1,0 +1,20 @@
+# AI SQL Query RAG System Dependencies
+
+# Core dependencies
+pandas>=2.0.0
+openai>=1.12.0
+pydantic>=2.0
+pydantic-settings>=2.0
+presto-python-client>=0.8.0
+typer>=0.9.0
+
+# Optional dependencies for enhanced functionality
+python-dotenv>=1.0.0
+rich>=13.0.0
+
+# Development dependencies (optional)
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.0.0
