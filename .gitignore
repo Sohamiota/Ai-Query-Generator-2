@@ -10,3 +10,7 @@ query
 *.db
 .env
 *.env
+__pycache__
+utils/__pycache__/
+data/__pycache__/
+core/__pycache__/

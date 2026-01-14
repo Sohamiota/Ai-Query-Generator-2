@@ -21,7 +21,6 @@ GREETING_KEYWORDS = {
     "namaste",
 }
 
-
 class TriageService(TriageServiceProtocol):
     """Classifies user queries and routes them appropriately."""
 
@@ -50,7 +49,6 @@ class TriageService(TriageServiceProtocol):
             f"User query: {request.user_query}\n\n"
             "Respond with exactly one label: DATA_QUESTION, GENERAL_QUESTION, GREETING, or OUT_OF_SCOPE."
         )
-
         try:
             response = await self.client.chat.completions.create(
                 model=self.config.deployment_classification,
